@@ -255,35 +255,53 @@ table {
         line-height: 16px;
         position: relative;
     }
-}
 
-
-
-.roller-vertical {
-    position: absolute;
-    right: -4px;
-    top: 0;
-    width: 6px;
-    background: transparent;
-    display: inline-block;
-    height: 100%;
-    z-index: 3;
-
-    &:hover {
-        cursor: w-resize;
+    .roller-vertical {
+        position: absolute;
+        right: -4px;
+        top: 0;
+        width: 6px;
+        background: transparent;
+        display: inline-block;
+        height: 100%;
+        z-index: 2;
+    
+        &:hover {
+            cursor: w-resize;
+        }
     }
-}
-.roller-horizontal {
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    height: 6px;
-    background: transparent;
-    display: inline-block;
-    width: 100%;
-    z-index: 3;
+    .roller-horizontal {
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        height: 6px;
+        background: transparent;
+        display: inline-block;
+        width: 100%;
+        z-index: 2;
+    
+        &:hover {
+            cursor: s-resize;
+        }
+    }
 
-    &:hover {
-        cursor: s-resize;
+    .context-menu {
+        position: absolute;
+        height: 30px;
+        min-width: 50px;
+        background: transparent;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 10px;
+        z-index: 3;
+        cursor: pointer;
+        background-color: #edfdfb;
+        color: #0E655B;
+        border: 1px solid #0E655B;
+        border-radius: 10px;
+    }
+    #check {
+        display: block;
     }
 }

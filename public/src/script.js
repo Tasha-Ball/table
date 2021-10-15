@@ -58,6 +58,20 @@ function render(data) {
             rollerVertical.classList.add('roller-vertical');
             td.appendChild(rollerVertical);
 
+            // контексное меню (клик правой кнопкой)
+            let contextMenu = document.createElement('div');
+            contextMenu.classList.add('context-menu')
+            contextMenu.innerHTML = "Удалить"
+            contextMenu.onclick = () => ( removeItem(el.field, item, data));
+            td.appendChild(contextMenu);
+            td.oncontextmenu = (e) => {
+                e.preventDefault();
+                if (document.getElementById('check')) document.getElementById('check').removeAttribute('id')
+                contextMenu.setAttribute('id', 'check')
+                contextMenu.style.top = e.offsetY + 'px'
+                contextMenu.style.left = e.offsetX + 'px'
+            };
+
             tr.appendChild(td);
         })
         // роллер горизонтальный (для ресайза)
@@ -138,6 +152,13 @@ function changePage(data) {
     }
 }
 
+// открытие контексного меню (удалить значение таблицы)
+function removeItem(el, item, data) {
+    const index = data[0].results.indexOf(item);
+    data[0].results[index][el] = "";
+    render(data);
+}
+
 // механизм отображения данных при перезагрузке страницы
 window.onload = function() {
     const data = JSON.parse(sessionStorage.getItem('data'));
@@ -148,3 +169,6 @@ window.onload = function() {
     }
 }
 
+document.onclick = (e) => {
+    if (document.getElementById('check')) document.getElementById('check').removeAttribute('id')
+}

@@ -309,7 +309,7 @@ table tbody td {
   position: relative;
 }
 
-.roller-vertical {
+table .roller-vertical {
   position: absolute;
   right: -4px;
   top: 0;
@@ -317,14 +317,14 @@ table tbody td {
   background: transparent;
   display: inline-block;
   height: 100%;
-  z-index: 3;
+  z-index: 2;
 }
 
-.roller-vertical:hover {
+table .roller-vertical:hover {
   cursor: w-resize;
 }
 
-.roller-horizontal {
+table .roller-horizontal {
   position: absolute;
   bottom: -4px;
   left: 0;
@@ -332,10 +332,35 @@ table tbody td {
   background: transparent;
   display: inline-block;
   width: 100%;
-  z-index: 3;
+  z-index: 2;
 }
 
-.roller-horizontal:hover {
+table .roller-horizontal:hover {
   cursor: s-resize;
+}
+
+table .context-menu {
+  position: absolute;
+  height: 30px;
+  min-width: 50px;
+  background: transparent;
+  display: none;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 10px;
+  z-index: 3;
+  cursor: pointer;
+  background-color: #edfdfb;
+  color: #0E655B;
+  border: 1px solid #0E655B;
+  border-radius: 10px;
+}
+
+table #check {
+  display: block;
 }
 /*# sourceMappingURL=style.css.map */

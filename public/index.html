@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/styles/style.css">
+    <script async src="./src/script.js"></script>
+    <title>table</title>
+</head>
+<body>
+    <div class="content">
+        <div class="container">
+            <div class="top">
+                <h1>Планеты Вселенной Звездных войн</h1>
+                <div class="top__control">
+                    <button onclick="changeContent(true)">Выгрузить данные</button>
+                    <button onclick="changeContent(false)">Очистить таблицу</button>
+                </div>
+            </div>
+            <div class="info" >
+                <div id="control" class="info__control">
+                    <div class="pagination">
+                        <button id="prev" onclick="getData(false)">
+                            <i aria-hidden="true">chevron_left</i>
+                        </button>
+                        <span id="page"></span>
+                        <button id="next" onclick="getData(true)">
+                            <i aria-hidden="true">chevron_right</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="no-info">Данные отсутствуют</div>
+                <div id="preloader"></div>
+                <div id="info"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

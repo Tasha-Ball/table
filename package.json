@@ -1,0 +1,21 @@
+{
+    "name": "webserver",
+    "version": "1.0.0",
+    "description": "utip webserver",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Tasha-Ball/utip.git"
+    },
+    "author": "baltikova",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Tasha-Ball/utip/issues"
+    },
+    "homepage": "https://github.com/Tasha-Ball/utip#readme",
+    "dependencies": {}
+}

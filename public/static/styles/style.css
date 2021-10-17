@@ -260,8 +260,6 @@ table thead th {
   border: 1px solid #ebedf2;
   vertical-align: top;
   padding: 10px;
-  min-width: 288px;
-  max-width: 288px;
   cursor: pointer;
   word-wrap: break-word;
 }
@@ -295,8 +293,6 @@ table tbody tr {
 }
 
 table tbody td {
-  min-width: 288px;
-  max-width: 288px;
   padding: 10px;
   word-wrap: break-word;
   border: 1px solid #ebedf2;

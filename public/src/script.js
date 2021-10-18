@@ -324,7 +324,6 @@ window.onload = function() {
 // механизм drag&drop
 function handleDragStart(event) {
     this.style.opacity = '0.4';
-    this.style.cursor = 'move';
     dragSrcEl = this;
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('text/html', this.innerHTML);
@@ -343,7 +342,6 @@ function handleDragLeave(event) {
 }
 function handleDragEnd(event) {
     this.style.opacity = '1';
-    this.style.cursor = 'default';
     let items = document.querySelectorAll('tbody tr');
     items.forEach(function (item) {
         item.classList.remove('over');

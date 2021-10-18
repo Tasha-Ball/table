@@ -290,6 +290,7 @@ table tbody tr:nth-child(odd) {
 
 table tbody tr {
   overflow-x: visible;
+  cursor: move;
 }
 
 table tbody tr.over {

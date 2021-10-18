@@ -235,6 +235,7 @@ table {
     }
     tbody tr {
         overflow-x: visible;
+        cursor: move;
 
         &.over {
             border: 3px dotted #666;

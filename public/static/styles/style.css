@@ -292,6 +292,10 @@ table tbody tr {
   overflow-x: visible;
 }
 
+table tbody tr.over {
+  border: 3px dotted #666;
+}
+
 table tbody td {
   padding: 10px;
   word-wrap: break-word;

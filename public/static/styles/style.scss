@@ -235,6 +235,10 @@ table {
     }
     tbody tr {
         overflow-x: visible;
+
+        &.over {
+            border: 3px dotted #666;
+        }
     }
     tbody td {
         padding: 10px;

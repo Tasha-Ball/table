@@ -15,7 +15,7 @@ const prev = document.getElementById('prev');
 const preloader = document.getElementById('preloader');
 const control = document.getElementById('control');
 let draggableW, draggableH= false
-let dragTarget, dragTargetWidth, clicX, width = null
+let dragTarget, dragTargetSize, click, width = null
 
 // рендеринг таблицы
 function render(data) {
@@ -45,13 +45,13 @@ function render(data) {
             draggableW = true
             document.body.style.cursor = "w-resize";
             dragTarget = event.target.parentNode;
-            dragTargetWidth = dragTarget.clientWidth;
-            clicX = event.x;
+            dragTargetSize = dragTarget.clientWidth;
+            click = event.x;
         }
         th.onmousemove = (event) => {
-            if ( draggableW && dragTargetWidth + event.x - clicX > 50) {
-                width = event.x - clicX
-                resizeTableWidth(dragTarget, dragTargetWidth, width)
+            if ( draggableW && dragTargetSize + event.x - click > 50) {
+                width = event.x - click
+                resizeTableWidth(dragTarget, dragTargetSize, width)
             }
         }
         th.appendChild(rollerVertical);
@@ -66,13 +66,13 @@ function render(data) {
         draggableH = true
         document.body.style.cursor = "w-resize";
         dragTarget = event.target.parentNode;
-        dragTargetWidth = dragTarget.clientHeight;
-        clicX = event.y;
+        dragTargetSize = dragTarget.clientHeight;
+        click = event.y;
     }
     tr.onmousemove = (event) => {
-        if ( draggableH && dragTargetWidth + event.y - clicX > 5) {
-            width = event.y - clicX
-            dragTarget.style.height = `${dragTargetWidth + width}px`
+        if ( draggableH && dragTargetSize + event.y - click > 5) {
+            width = event.y - click
+            dragTarget.style.height = `${dragTargetSize + width}px`
         }
     }
     tr.appendChild(rollerHorizontal);
@@ -94,13 +94,13 @@ function render(data) {
                 draggableW = true
                 document.body.style.cursor = "w-resize";
                 dragTarget = event.target.parentNode;
-                dragTargetWidth = dragTarget.clientWidth;
-                clicX = event.x;
+                dragTargetSize = dragTarget.clientWidth;
+                click = event.x;
             }
             td.onmousemove = (event) => {
-                if ( draggableW && dragTargetWidth + event.x - clicX > 50) {
-                    width = event.x - clicX
-                    resizeTableWidth(dragTarget, dragTargetWidth, width)
+                if ( draggableW && dragTargetSize + event.x - click > 50) {
+                    width = event.x - click
+                    resizeTableWidth(dragTarget, dragTargetSize, width)
                 }
             }
             td.appendChild(rollerVertical);
@@ -132,15 +132,25 @@ function render(data) {
             draggableH = true
             document.body.style.cursor = "w-resize";
             dragTarget = event.target.parentNode;
-            dragTargetWidth = dragTarget.clientHeight;
-            clicX = event.y;
+            dragTargetSize = dragTarget.clientHeight;
+            click = event.y;
         }
         tr.onmousemove = (event) => {
-            if ( draggableH && dragTargetWidth + event.y - clicX > 5) {
-                width = event.y - clicX
-                dragTarget.style.height = `${dragTargetWidth + width}px`
+            if ( draggableH && dragTargetSize + event.y - click > 5) {
+                width = event.y - click
+                dragTarget.style.height = `${dragTargetSize + width}px`
             }
         }
+
+        // механизм drag&drop
+        tr.setAttribute('draggable', true)
+        tr.addEventListener('dragstart', handleDragStart);
+        tr.addEventListener('dragover', handleDragOver);
+        tr.addEventListener('dragenter', handleDragEnter);
+        tr.addEventListener('dragleave', handleDragLeave);
+        tr.addEventListener('dragend', handleDragEnd);
+        tr.addEventListener('drop', handleDrop);
+
         tr.appendChild(rollerHorizontal);
 
         tbody.appendChild(tr);
@@ -219,41 +229,41 @@ function changePage(data) {
 // событие мыши (для ресайза)
 document.onmouseup = () => {
     if (draggableW) {
-        resizeTableWidth(dragTarget, dragTargetWidth, width)
+        resizeTableWidth(dragTarget, dragTargetSize, width)
         let widthColumn = []
         document.querySelectorAll('th').forEach((th) => {
             widthColumn.push(th.clientWidth)
         })
         sessionStorage.setItem('widthColumn', JSON.stringify(widthColumn))
         document.body.style.cursor = "default"
-        dragTarget, dragTargetWidth, clicX, width = null
+        dragTarget, dragTargetSize, click, width = null
         draggableW = false
     }
     if (draggableH) {
-        dragTarget.style.height = `${dragTargetWidth + width}px`
+        dragTarget.style.height = `${dragTargetSize + width}px`
         let heightColumn = []
         document.querySelectorAll('tr').forEach((tr) => {
             heightColumn.push(tr.clientHeight)
         })
         sessionStorage.setItem('heightColumn', JSON.stringify(heightColumn))
         document.body.style.cursor = "default"
-        dragTarget, dragTargetWidth, clicX, width = null
+        dragTarget, dragTargetSize, click, width = null
         draggableH = false
     }
 }
 
 // изменение ширины столбцов
-function resizeTableWidth(dragTarget, dragTargetWidth, width) {
+function resizeTableWidth(dragTarget, dragTargetSize, width) {
     const tds = document.querySelectorAll(`td:nth-child(${dragTarget.cellIndex+1}),th:nth-child(${dragTarget.cellIndex+1})`)
     if ( tds ){
         tds.forEach( (td) => {
-            td.style.minWidth = `${dragTargetWidth + width}px`
-            td.style.maxWidth = `${dragTargetWidth + width}px`
+            td.style.minWidth = `${dragTargetSize + width}px`
+            td.style.maxWidth = `${dragTargetSize + width}px`
         })
     }
 }
 
-// ихменение ширины и/или высоты столбцов/строк
+// изменение ширины и/или высоты столбцов/строк
 function setTableSize() {
     const widthColumn = JSON.parse(sessionStorage.getItem('widthColumn'))
     const heightColumn = JSON.parse(sessionStorage.getItem('heightColumn'))
@@ -309,4 +319,41 @@ window.onload = function() {
         changePage(data);
         render(data)
     }
+}
+
+// механизм drag&drop
+function handleDragStart(event) {
+    this.style.opacity = '0.4';
+    this.style.cursor = 'move';
+    dragSrcEl = this;
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/html', this.innerHTML);
+}
+function handleDragOver(event) {
+    if (event.preventDefault) {
+        event.preventDefault();
+    }
+    return false;
+}
+function handleDragEnter(event) {
+    this.classList.add('over');
+}
+function handleDragLeave(event) {
+    this.classList.remove('over');
+}
+function handleDragEnd(event) {
+    this.style.opacity = '1';
+    this.style.cursor = 'default';
+    let items = document.querySelectorAll('tbody tr');
+    items.forEach(function (item) {
+        item.classList.remove('over');
+    });
+}
+function handleDrop(event) {
+    event.stopPropagation();
+    if (dragSrcEl !== this) {
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = event.dataTransfer.getData('text/html');
+    }
+    return false;
 }

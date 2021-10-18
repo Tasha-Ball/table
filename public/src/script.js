@@ -349,11 +349,18 @@ function handleDragEnd(event) {
         item.classList.remove('over');
     });
 }
-function handleDrop(event) {
+function handleDrop(event, data) {
     event.stopPropagation();
     if (dragSrcEl !== this) {
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = event.dataTransfer.getData('text/html');
+        
+        let data = JSON.parse(sessionStorage.getItem('data'));
+        const index = [...dragSrcEl.parentElement.childNodes].indexOf(dragSrcEl);
+        const indexNew = [...this.parentElement.childNodes].indexOf(this);
+        [data[0].results[index], data[0].results[indexNew]] = [data[0].results[indexNew], data[0].results[index]];
+        sessionStorage.setItem('data', JSON.stringify(data))
+        render(data)
     }
     return false;
 }
